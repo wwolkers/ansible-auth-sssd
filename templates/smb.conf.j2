@@ -1,7 +1,9 @@
 {{ ansible_managed | comment }}
 
 [global]
-workgroup = {{ auth_sssd_domain.split('.')[0]|upper }}
+workgroup = {{ auth_sssd_netbios_domain | default(auth_sssd_domain.split('.')[0]|upper) }}
 realm = {{ auth_sssd_domain|upper }}
-kerberos method = system keytab
+kerberos method = secrets and  keytab
 security = ads
+client signing = yes
+client use spnego = yes

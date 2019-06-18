@@ -13,7 +13,13 @@ ticket_lifetime = 24h
 renew_lifetime = 7d
 forwardable = true
 rdns = True
-
+krb4_config = /etc/krb.conf
+krb4_realms = /etc/krb.realms
+kdc_timesync = 1
+ccache_type = 4
+forwardable = true
+proxiable = true
+                                                
 [realms]
 CONTOSO.COM = {
     kdc = KERBEROS-1.CONTOSO.COM

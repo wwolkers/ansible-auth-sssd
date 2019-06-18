@@ -1,12 +1,18 @@
 ---
 - name: Install Samba
-  yum: name={{ item }} state=present
-  with_items:
-    - samba-client
-    - samba-common
+  apt:
+    name: ['samba', 'sssd', 'ntp', 'libpam-sss', 'libnss-sss']
+    state: present
 
 - name: Copy smb.conf
-  template: src=smb.conf.j2 dest=/etc/samba/smb.conf
+  template: 
+    src=smb.conf.j2
+    dest=/etc/samba/smb.conf
+    backup=yes
+    owner=0 group=0 mode=0644
+#    validate='/usr/sbin/sshd -T -f %s'
+#  notify:
+#  - restart smbd
 
 - name: Check if machine is bound
   shell: /usr/bin/net ads testjoin > /dev/null
@@ -16,5 +22,5 @@
   ignore_errors: true
 
 - name: Join {{ auth_sssd_domain }}
-  shell: /usr/bin/net -s /etc/samba/smb.conf -U {{ auth_sssd_user }}%{{ auth_sssd_password }} ads join {{ auth_sssd_domain }} createcomputer="{{ auth_sssd_bind_path }}" osName={{ ansible_distribution }} osVer={{ ansible_distribution_version }} 
-  when: ad_bound|failed
+  shell: /usr/bin/net -s /etc/samba/smb.conf -U {{ auth_sssd_user }}%{{ auth_sssd_password }} ads join {{ auth_sssd_domain }} createcomputer="{{ auth_sssd_bind_path }}" osName={{ ansible_distribution }} osVer={{ ansible_distribution_version }}
+  when: ad_bound is failed

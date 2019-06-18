@@ -1,9 +1,8 @@
 ---
 - name: Install Kerberos and LDAP clients
-  yum: name={{ item }} state=present
-  with_items:
-    - krb5-workstation
-    - openldap-clients
+  apt:
+    name: ['krb5-user', 'ntp']
+    state: present
 
 - name: Configure Kerberos integration with AD
   template: src=krb5.conf.j2 dest=/etc/krb5.conf

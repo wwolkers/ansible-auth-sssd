@@ -1,10 +1,11 @@
 ---
-auth_sssd_domain: "ad.contoso.com"
+auth_sssd_domain: "yamnet.com"
+auth_sssd_netbios_domain: "YAMNET-TR"
 auth_sssd_bind_path: "/computers"
 ad_gpo_access_control: "permissive"
 #ad_gpo_access_control: "enforcing"
 
 # please encrypt these with ansible-vault:
-#auth_sssd_user: "admin-user"
-#auth_sssd_password: "pa$$word"
+auth_sssd_user: "adminymeww"
+auth_sssd_password: "pa$$word"
 
